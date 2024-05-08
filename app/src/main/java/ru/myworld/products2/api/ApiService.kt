@@ -28,9 +28,6 @@ private val retrofit = Retrofit.Builder()
 interface ApiService {
     @GET("products")
     suspend fun getPagingAll(@Query("skip=") pager: Int, @Query("limit=") limit: Int): Response<Samurai>
-
-    /* @GET("products?skip={page}}&limit={limit}")
-     suspend fun getPagingAll(@Path("page") page: Int, @Path("limit") limit: Int): Response<Samurai>*/
 }
 
 object ProductsApi {

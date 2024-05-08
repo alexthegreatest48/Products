@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import ru.myworld.products2.api.ApiService
 import ru.myworld.products2.dto.Product
-import ru.myworld.products2.dto.toProduct
 import ru.myworld.products2.error.NetworkError
 import ru.myworld.products2.error.UnknownError
 import java.io.IOException
@@ -29,7 +28,18 @@ class ProductPagingSource(
             val products = response.body()!!.products
             val nextKey = if (products.size < page) null else page+1
             val prevKey = if (page == 1) null else page - 1
-            return LoadResult.Page(products, nextKey, prevKey)
+            return LoadResult.Page(
+                data = products.map{
+                    Product(
+                        id = it.id,
+                        title = it.title,
+                        description = it.description,
+                        price = it.price,
+                        brand = it.brand,
+                        thumbnail = it.thumbnail
+                    )
+
+                }, nextKey, prevKey)
 
         } catch (e: IOException) {
             return LoadResult.Error(NetworkError)
